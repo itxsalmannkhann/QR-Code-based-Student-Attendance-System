@@ -206,7 +206,7 @@ student_attendance/
 │ ▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓     │
 │                         │
 │   [Student Data Area]   │  ← Encoded information
-│   101|John Doe|10A      │
+│   101|Salman Khan|BCS   │
 │                         │
 │ ▓▓▓▓▓▓▓                 │
 │ ▓     ▓                 │  ← Alignment pattern
