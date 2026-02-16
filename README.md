@@ -102,9 +102,8 @@ Create or edit `students.csv` with your student information:
 
 ```csv
 StudentID,Name,Class
-101,John Doe,10A
-102,Jane Smith,10A
-103,Mike Johnson,10B
+101,Salman Khan,BCS AI
+103,Ihsan Ullah Mohmand,BCS AI
 ```
 
 ### 2. Generate QR Codes
@@ -170,8 +169,8 @@ student_attendance/
 ├── attendance.csv          # Attendance records (auto-created)
 │
 └── qr_codes/               # Generated QR codes (auto-created)
-    ├── 101_John_Doe.png
-    ├── 102_Jane_Smith.png
+    ├── 101_Salman_Khan.png
+    ├── 102_Ihsan_ullah_Mohmand.png
     └── ...
 ```
 
@@ -199,19 +198,19 @@ student_attendance/
 **QR Code Structure:**
 ```
 ┌─────────────────────────┐
-│ ▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓    │  ← Finder patterns (3 corners)
-│ ▓     ▓     ▓     ▓    │
-│ ▓ ▓▓▓ ▓     ▓ ▓▓▓ ▓    │
-│ ▓ ▓▓▓ ▓     ▓ ▓▓▓ ▓    │
-│ ▓     ▓     ▓     ▓    │
-│ ▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓    │
+│ ▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓     │  ← Finder patterns (3 corners)
+│ ▓     ▓     ▓     ▓     │
+│ ▓ ▓▓▓ ▓     ▓ ▓▓▓ ▓     │
+│ ▓ ▓▓▓ ▓     ▓ ▓▓▓ ▓     │
+│ ▓     ▓     ▓     ▓     │
+│ ▓▓▓▓▓▓▓     ▓▓▓▓▓▓▓     │
 │                         │
 │   [Student Data Area]   │  ← Encoded information
 │   101|John Doe|10A      │
 │                         │
-│ ▓▓▓▓▓▓▓                │
-│ ▓     ▓                │  ← Alignment pattern
-│ ▓ ▓▓▓ ▓                │
+│ ▓▓▓▓▓▓▓                 │
+│ ▓     ▓                 │  ← Alignment pattern
+│ ▓ ▓▓▓ ▓                 │
 └─────────────────────────┘
 ```
 
@@ -282,7 +281,7 @@ else:
 
 ```
 ┌─────────────────────────────────────┐
-│  while True:                         │
+│  while True:                        │
 │    1. Capture frame from webcam     │
 │    2. Detect QR codes in frame      │
 │    3. Decode QR data                │
@@ -348,8 +347,8 @@ python scanner.py
 ```
 ✓ Attendance Marked:
    Student ID: 101
-   Name: John Doe
-   Class: 10A
+   Name: Salman Khan
+   Class: BCS AI
    Time: 09:15:23
 ```
 
@@ -514,8 +513,8 @@ pip install pyzbar
 **Solution:** Create the file with correct format:
 ```csv
 StudentID,Name,Class
-101,John Doe,10A
-102,Jane Smith,10B
+101,Salman Khan,BCS AI
+102,Ihsan Ullah Mohmand,BCS AI
 ```
 
 **Important:**
@@ -545,13 +544,13 @@ Example: 101|John Doe|10A
 **students.csv:**
 ```csv
 StudentID,Name,Class
-101,John Doe,10A
+101,Salman Khan,BCS AI
 ```
 
 **attendance.csv (auto-created):**
 ```csv
 StudentID,Name,Class,Date,Time
-101,John Doe,10A,2024-02-16,09:15:23
+101,Salman Khan,BCS ,2024-02-16,09:15:23
 ```
 
 ### Error Correction Levels
@@ -675,4 +674,4 @@ For issues or questions:
 
 ---
 
-**Made with ❤️ for educational institutions**
+**Made with ❤️ for Educational Institutions By Salman Khan**
