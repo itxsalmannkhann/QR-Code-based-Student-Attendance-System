@@ -141,12 +141,12 @@ Example students.csv:
         # Camera preview (reduced size)
         self.camera_label = tk.Label(
             scanner_frame,
-            text="Camera feed will appear here",
+            text="Camera Feed Will Appear Here",
             bg="black",
             fg="white",
             font=("Helvetica", 12),
-            width=70,
-            height=15  # Reduced from 20
+            width=75,
+            height=14  # Reduced from 20
         )
         self.camera_label.pack(pady=5)
         
@@ -154,7 +154,7 @@ Example students.csv:
         self.scan_status_label = tk.Label(
             scanner_frame,
             text="Click 'Start Scanner' to begin",
-            font=("Helvetica", 11, "bold"),
+            font=("Helvetica", 12, "bold"),
             fg="blue"
         )
         self.scan_status_label.pack(pady=5)
