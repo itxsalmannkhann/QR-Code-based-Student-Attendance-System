@@ -31,7 +31,7 @@ class AttendanceGUI:
     def __init__(self, root):
         self.root = root
         self.root.title("Student Attendance System")
-        self.root.geometry("900x650")  # Reduced height
+        self.root.geometry("1280x720")  # Reduced height
         self.root.minsize(800, 500)  # Set minimum size
         
         # System components
