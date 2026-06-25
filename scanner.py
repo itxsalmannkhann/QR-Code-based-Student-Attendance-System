@@ -24,25 +24,32 @@ import os
 from datetime import datetime
 import pandas as pd
 
+from generate_qr import read_students_csv
+
 
 class AttendanceSystem:
     """
     Complete attendance system with QR scanning and logging.
     """
     
-    def __init__(self, attendance_file="attendance.csv"):
+    def __init__(self, attendance_file="attendance.csv", students_file="students.csv"):
         """
         Initialize the attendance system.
         
         Args:
             attendance_file (str): Path to attendance CSV file
+            students_file (str): Path to the registered student roster CSV file
         """
         self.attendance_file = attendance_file
         self.attendance_records = []
         self.today_attendance = set()  # Track today's attendance in memory
+        self.known_students = {}  # Registered students loaded from students_file
         
         # Initialize attendance file
         self._initialize_attendance_file()
+        
+        # Load the registered student roster (used to reject unregistered QR scans)
+        self._load_student_roster(students_file)
         
         # Load today's attendance
         self._load_today_attendance()
@@ -60,6 +67,34 @@ class AttendanceSystem:
             print(f"✓ Created new attendance file: {self.attendance_file}")
         else:
             print(f"✓ Using existing attendance file: {self.attendance_file}")
+    
+    def _load_student_roster(self, students_file):
+        """
+        Load the registered student roster so scans can be validated.
+        
+        Why this matters:
+        - Without this check, ANY QR code in the right format
+          (StudentID|Name|Class) gets accepted and written to
+          attendance.csv, even if that StudentID was never enrolled
+          (typos, forged/duplicated codes, old codes for students who
+          left, etc). That silently corrupts attendance percentages and
+          present/absent counts in report_generator.py.
+        - This loads the official roster once at startup so every scan
+          can be cross-checked against it before attendance is marked.
+        
+        Args:
+            students_file (str): Path to students CSV file
+        """
+        self.known_students = {}
+        
+        try:
+            students = read_students_csv(students_file)
+            self.known_students = {s['StudentID']: s for s in students}
+            print(f"✓ Loaded {len(self.known_students)} registered students from {students_file}")
+        
+        except (FileNotFoundError, ValueError) as e:
+            print(f"⚠️  Warning: Could not load student roster from {students_file}: {e}")
+            print("⚠️  Roster validation is DISABLED — scans will NOT be checked against students.csv!")
     
     def _load_today_attendance(self):
         """
@@ -139,6 +174,23 @@ class AttendanceSystem:
         """
         return str(student_id) in self.today_attendance
     
+    def is_registered(self, student_id):
+        """
+        Check whether a student ID exists in the official roster.
+        
+        Args:
+            student_id (str): Student ID to check
+        
+        Returns:
+            bool: True if the ID is on the roster, or if the roster could
+                  not be loaded (so we can't validate and choose not to
+                  block scans outright). False if the roster IS loaded
+                  and the ID is not on it.
+        """
+        if not self.known_students:
+            return True
+        return str(student_id) in self.known_students
+    
     def mark_attendance(self, student):
         """
         Mark attendance for a student.
@@ -148,8 +200,14 @@ class AttendanceSystem:
         
         Returns:
             bool: True if marked successfully, False if already marked
+                  or the student is not on the registered roster
         """
         student_id = str(student['StudentID'])
+        
+        # Reject scans for IDs that aren't on the registered roster
+        if not self.is_registered(student_id):
+            print(f"⚠️  Rejected: Student ID {student_id} is not registered in students.csv")
+            return False
         
         # Check duplicate
         if self.is_already_marked(student_id):
@@ -306,6 +364,11 @@ class QRScanner:
         
         if not student:
             return False, "Invalid QR Code", (0, 0, 255)  # Red
+        
+        # Reject IDs that aren't on the registered student roster
+        if not self.attendance_system.is_registered(student['StudentID']):
+            message = f"{student['Name']} - Not a Registered Student!"
+            return False, message, (0, 0, 255)  # Red
         
         # Check if already marked
         if self.attendance_system.is_already_marked(student['StudentID']):
