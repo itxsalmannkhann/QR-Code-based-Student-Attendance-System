@@ -26,9 +26,24 @@ from report_generator import ReportGenerator
 
 
 class AttendanceGUI:
+    """
+    Main GUI application class.
 
-    
+    Attributes:
+        root (tk.Tk): The root window of the application.
+        attendance_system (AttendanceSystem): The attendance system instance.
+        report_generator (ReportGenerator): The report generator instance.
+        scanner (QRScanner): The QR scanner instance.
+        scanning (bool): Flag indicating whether the scanner is running.
+    """
+
     def __init__(self, root):
+        """
+        Initialize the GUI application.
+
+        Args:
+            root (tk.Tk): The root window of the application.
+        """
         self.root = root
         self.root.title("Student Attendance System")
         self.root.geometry("1280x720")  # Reduced height
@@ -44,7 +59,9 @@ class AttendanceGUI:
         self.setup_ui()
     
     def setup_ui(self):
-        """Create and layout all UI elements."""
+        """
+        Create and layout all UI elements.
+        """
         
         # Title
         title_frame = tk.Frame(self.root, bg="#5F0A0A", height=60)  # Reduced from 80
@@ -81,7 +98,9 @@ class AttendanceGUI:
         self.create_settings_tab()
     
     def create_qr_generation_tab(self):
-        """Create QR code generation tab."""
+        """
+        Create QR code generation tab.
+        """
         qr_frame = ttk.Frame(self.notebook, padding=20)
         self.notebook.add(qr_frame, text="Generate QR Codes")
         
@@ -134,7 +153,9 @@ Example students.csv:
         ).pack(side="left", padx=5)
     
     def create_scanner_tab(self):
-        """Create attendance scanner tab."""
+        """
+        Create attendance scanner tab.
+        """
         scanner_frame = ttk.Frame(self.notebook, padding=20)
         self.notebook.add(scanner_frame, text="📷 Scan Attendance")
         
@@ -186,7 +207,9 @@ Example students.csv:
         self.stop_scan_btn.pack(side="left", padx=5)
     
     def create_reports_tab(self):
-        """Create reports tab."""
+        """
+        Create reports tab.
+        """
         reports_frame = ttk.Frame(self.notebook, padding=20)
         self.notebook.add(reports_frame, text="Reports")
         
@@ -250,7 +273,9 @@ Example students.csv:
         ).pack(side="left", padx=5)
     
     def create_settings_tab(self):
-        """Create settings tab."""
+        """
+        Create settings tab.
+        """
         settings_frame = ttk.Frame(self.notebook, padding=20)
         self.notebook.add(settings_frame, text="Settings")
         
@@ -281,14 +306,18 @@ Example students.csv:
     # Action methods
     
     def open_students_csv(self):
-        """Open students.csv in default editor."""
+        """
+        Open students.csv in default editor.
+        """
         if os.path.exists("students.csv"):
             os.system("students.csv" if os.name == 'nt' else "open students.csv")
         else:
             messagebox.showwarning("File Not Found", "students.csv not found!")
     
     def generate_qr_codes(self):
-        """Generate QR codes for all students."""
+        """
+        Generate QR codes for all students.
+        """
         try:
             self.qr_status_label.config(text="Generating QR codes...", fg="blue")
             self.root.update()
@@ -311,14 +340,18 @@ Example students.csv:
             messagebox.showerror("Error", f"Failed to generate QR codes:\n{str(e)}")
     
     def open_qr_folder(self):
-        """Open QR codes folder."""
+        """
+        Open QR codes folder.
+        """
         if os.path.exists("qr_codes"):
             os.system("qr_codes" if os.name == 'nt' else "open qr_codes")
         else:
             messagebox.showwarning("Folder Not Found", "qr_codes folder not found!")
     
     def start_scanner(self):
-        """Start the QR scanner in a separate thread."""
+        """
+        Start the QR scanner in a separate thread.
+        """
         if self.scanning:
             return
         
@@ -332,7 +365,9 @@ Example students.csv:
         scan_thread.start()
     
     def run_scanner(self):
-        """Run scanner loop (in separate thread)."""
+        """
+        Run scanner loop (in separate thread).
+        """
         try:
             camera = cv2.VideoCapture(0)
             
@@ -381,12 +416,16 @@ Example students.csv:
             self.stop_scan_btn.config(state="disabled")
     
     def stop_scanner(self):
-        """Stop the scanner."""
+        """
+        Stop the scanner.
+        """
         self.scanning = False
         self.scan_status_label.config(text="Stopping scanner...", fg="blue")
     
     def show_daily_report(self):
-        """Display daily attendance report."""
+        """
+        Display daily attendance report.
+        """
         try:
             date_str = self.date_var.get()
             report = self.report_generator.get_daily_report(date_str)
@@ -416,7 +455,9 @@ Example students.csv:
             messagebox.showerror("Error", f"Failed to generate report:\n{str(e)}")
     
     def show_classwise_report(self):
-        """Display class-wise report."""
+        """
+        Display class-wise report.
+        """
         try:
             date_str = self.date_var.get()
             class_stats = self.report_generator.get_class_wise_report(date_str)
@@ -436,7 +477,9 @@ Example students.csv:
             messagebox.showerror("Error", f"Failed to generate report:\n{str(e)}")
     
     def export_report(self):
-        """Export report to Excel."""
+        """
+        Export report to Excel.
+        """
         try:
             date_str = self.date_var.get()
             filename = f"attendance_report_{date_str.replace('-', '_')}.xlsx"
@@ -456,7 +499,9 @@ Example students.csv:
 
 
 def main():
-    """Launch the GUI application."""
+    """
+    Launch the GUI application.
+    """
     root = tk.Tk()
     app = AttendanceGUI(root)
     root.mainloop()
