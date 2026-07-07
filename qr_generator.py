@@ -36,3 +36,30 @@ def read_students_csv(csv_file = "./students_data/students.csv"):
     
     except Exception as e:
         raise ValueError('Error Reading CSV file: '.format(e))
+    
+    
+def generate_qr_code(data, filename, output_dir="qr_codes"):
+    """
+    Generate a QR code with high error correction.
+    
+    Args:
+        data (str): Data to encode in QR code
+        filename (str): Output filename (without extension)
+        output_dir (str): Directory to save QR codes
+    
+    Returns:
+        str: Path to saved QR code image
+    
+    How QR Code Generation Works:
+    1. Data is converted to binary format
+    2. Error correction codes are added (Reed-Solomon)
+    3. Data is arranged in a 2D matrix pattern
+    4. Finder patterns (corners) help scanners locate the code
+    5. Version and format information is embedded
+    
+    Error Correction Levels:
+    - L (Low): 7% recovery capability
+    - M (Medium): 15% recovery capability
+    - Q (Quartile): 25% recovery capability
+    - H (High): 30% recovery capability - BEST for scanning reliability
+    """
