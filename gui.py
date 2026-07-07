@@ -308,6 +308,9 @@ Example students.csv:
     def open_students_csv(self):
         """
         Open students.csv in default editor.
+        
+        Opens the students.csv file in the default editor associated with .csv files.
+        If the file does not exist, displays a warning message.
         """
         if os.path.exists("students.csv"):
             os.system("students.csv" if os.name == 'nt' else "open students.csv")
@@ -317,6 +320,9 @@ Example students.csv:
     def generate_qr_codes(self):
         """
         Generate QR codes for all students.
+        
+        Generates QR codes for all students listed in the students.csv file and saves them in the qr_codes/ folder.
+        Displays a success message if the operation is successful, or an error message if an exception occurs.
         """
         try:
             self.qr_status_label.config(text="Generating QR codes...", fg="blue")
@@ -342,6 +348,9 @@ Example students.csv:
     def open_qr_folder(self):
         """
         Open QR codes folder.
+        
+        Opens the qr_codes/ folder in the default file explorer.
+        If the folder does not exist, displays a warning message.
         """
         if os.path.exists("qr_codes"):
             os.system("qr_codes" if os.name == 'nt' else "open qr_codes")
@@ -351,6 +360,8 @@ Example students.csv:
     def start_scanner(self):
         """
         Start the QR scanner in a separate thread.
+        
+        Starts the QR scanner in a separate thread, allowing the GUI to remain responsive.
         """
         if self.scanning:
             return
@@ -367,6 +378,8 @@ Example students.csv:
     def run_scanner(self):
         """
         Run scanner loop (in separate thread).
+        
+        Runs the QR scanner loop in a separate thread, processing frames from the camera and updating the GUI.
         """
         try:
             camera = cv2.VideoCapture(0)
@@ -418,6 +431,8 @@ Example students.csv:
     def stop_scanner(self):
         """
         Stop the scanner.
+        
+        Stops the QR scanner and updates the GUI.
         """
         self.scanning = False
         self.scan_status_label.config(text="Stopping scanner...", fg="blue")
@@ -425,6 +440,8 @@ Example students.csv:
     def show_daily_report(self):
         """
         Display daily attendance report.
+        
+        Displays the daily attendance report for the selected date.
         """
         try:
             date_str = self.date_var.get()
@@ -457,6 +474,8 @@ Example students.csv:
     def show_classwise_report(self):
         """
         Display class-wise report.
+        
+        Displays the class-wise attendance report for the selected date.
         """
         try:
             date_str = self.date_var.get()
@@ -479,6 +498,8 @@ Example students.csv:
     def export_report(self):
         """
         Export report to Excel.
+        
+        Exports the attendance report to an Excel file.
         """
         try:
             date_str = self.date_var.get()
@@ -501,6 +522,8 @@ Example students.csv:
 def main():
     """
     Launch the GUI application.
+    
+    Creates an instance of the AttendanceGUI class and starts the GUI event loop.
     """
     root = tk.Tk()
     app = AttendanceGUI(root)
