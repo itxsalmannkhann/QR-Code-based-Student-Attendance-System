@@ -73,3 +73,8 @@ def generate_qr_code(data, filename, output_dir="qr_codes"):
         box_size=10,  # Size of each module (pixel)
         border=4,  # Minimum border (QR spec requires 4)
     )
+
+    # Add data and optimize size
+    qr.add_data(data)
+    qr.make(fit=True)
+    
