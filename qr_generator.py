@@ -37,7 +37,7 @@ def read_students_csv(csv_file = "./students_data/students.csv"):
     except Exception as e:
         raise ValueError('Error Reading CSV file: '.format(e))
     
-    
+
 def generate_qr_code(data, filename, output_dir="qr_codes"):
     """
     Generate a QR code with high error correction.
@@ -63,3 +63,6 @@ def generate_qr_code(data, filename, output_dir="qr_codes"):
     - Q (Quartile): 25% recovery capability
     - H (High): 30% recovery capability - BEST for scanning reliability
     """
+    # Create output directory if it doesn't exist
+    Path(output_dir).mkdir(parents=True, exist_ok=True)
+    
