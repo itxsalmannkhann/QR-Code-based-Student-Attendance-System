@@ -66,3 +66,10 @@ def generate_qr_code(data, filename, output_dir="qr_codes"):
     # Create output directory if it doesn't exist
     Path(output_dir).mkdir(parents=True, exist_ok=True)
     
+    # Configure QR code with optimal settings for scanning
+    qr = qrcode.QRCode(
+        version=1,  # Auto-size (1 = smallest, 40 = largest)
+        error_correction=qrcode.constants.ERROR_CORRECT_H,  # Highest reliability
+        box_size=10,  # Size of each module (pixel)
+        border=4,  # Minimum border (QR spec requires 4)
+    )
