@@ -4,6 +4,19 @@ import os
 from pathlib import Path
 
 def read_students_csv(csv_file = "./students_data/students.csv"):
+    """
+    Reads students data from a CSV file.
+
+    Args:
+        csv_file (str): Path to the CSV file containing students data. Defaults to "./students_data/students.csv".
+
+    Returns:
+        list: A list of dictionaries, each containing a student's data.
+
+    Raises:
+        FileNotFoundError: If the CSV file does not exist.
+        ValueError: If the CSV file is missing required headers or if no valid students records are found.
+    """
     if not os.path.exists(csv_file):
         raise FileNotFoundError("Students CSV file not found: {}".format(csv_file))
     
@@ -24,7 +37,7 @@ def read_students_csv(csv_file = "./students_data/students.csv"):
                     continue
 
                 students.append({
-                    'StudentID': row['StudentID'].stip(),
+                    'StudentID': row['StudentID'].strip(),
                     'Name': row['Name'].strip(),
                     'Class': row['Class'].strip()
                 })
@@ -35,28 +48,28 @@ def read_students_csv(csv_file = "./students_data/students.csv"):
         return students
     
     except Exception as e:
-        raise ValueError('Error Reading CSV file: '.format(e))
-    
-    
+        raise ValueError('Error Reading CSV file: {}'.format(e))
+
+
 def generate_qr_code(data, filename, output_dir="qr_codes"):
     """
     Generate a QR code with high error correction.
-    
+
     Args:
         data (str): Data to encode in QR code
         filename (str): Output filename (without extension)
-        output_dir (str): Directory to save QR codes
-    
+        output_dir (str): Directory to save QR codes. Defaults to "qr_codes".
+
     Returns:
         str: Path to saved QR code image
-    
+
     How QR Code Generation Works:
     1. Data is converted to binary format
     2. Error correction codes are added (Reed-Solomon)
     3. Data is arranged in a 2D matrix pattern
     4. Finder patterns (corners) help scanners locate the code
     5. Version and format information is embedded
-    
+
     Error Correction Levels:
     - L (Low): 7% recovery capability
     - M (Medium): 15% recovery capability
@@ -77,4 +90,3 @@ def generate_qr_code(data, filename, output_dir="qr_codes"):
     # Add data and optimize size
     qr.add_data(data)
     qr.make(fit=True)
-    
