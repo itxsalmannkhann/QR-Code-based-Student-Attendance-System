@@ -90,3 +90,6 @@ def generate_qr_code(data, filename, output_dir="qr_codes"):
     # Add data and optimize size
     qr.add_data(data)
     qr.make(fit=True)
+    img = qr.make_image(fill_color="black", back_color="white")
+    img.save(os.path.join(output_dir, f"{filename}.png"))
+    return os.path.join(output_dir, f"{filename}.png")
